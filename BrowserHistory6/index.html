@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A history of web browsers</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oswald|Open+Sans">
+    <style>
+        h1,
+        h2 {
+            font-family: 'Oswald', sans;
+        }
+
+        body {
+            font-family: 'Open Sans', sans;
+            color: yellow;
+            margin: 10px 50px 10px 50px;
+            width: 950px;
+            background-color: black;
+        }
+
+        img {
+            float: left;
+            margin-right: 10px;
+        }
+
+        #navagation a {
+            margin-left: 60px;
+            margin-right: 60px;
+        }
+
+        li {
+            display: inline;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>A history of web browsers</h1>
+    <h2>Table of Contents</h2>
+    <div id="navagation">
+        <li><input type="button" value="Internet Explorer" onclick="window.location.href='ie.html'"
+                onmouseover="imgbox.innerHTML='<img width=100px height=100px src=https://dport96.github.io/ITM352/morea/030.ui-basics/ie-logo.png>'">
+        </li>
+        <li><input type="button" value="Firefox" onclick="window.location.href='firefox.html'"
+                onmouseover="imgbox.innerHTML='<img width=100px height=100px src=https://dport96.github.io/ITM352/morea/030.ui-basics/Mozilla_Firefox_logo.png>'">
+        </li>
+        <li><input type="button" value="Chrome" onclick="window.location.href='chrome.html'"
+                onmouseover="imgbox.innerHTML='<img width=100px height=100px src=https://dport96.github.io/ITM352/morea/030.ui-basics/Google_Chrome_icon.svg>'">
+        </li>
+    </div>
+
+    <div id="imgbox">
+        Mouse over for more information, click for history.
+    </div>
+    <h2 id="Introduction">Introduction</h2>
+    <p>The first web browser was invented in 1990 by Tim Berners-Lee. It was called <a
+            href="https://en.wikipedia.org/wiki/World_Wide_Web">WorldWideWeb</a> (no spaces) and was later renamed
+        Nexus. In 1993, Marc Andreesen created a browser that was easy to use and install with the release of Mosaic
+        (later Netscape), “the world’s first popular browser”, which made the World Wide Web system easy to use and more
+        accessible to the average person. Andreesen’s browser sparked the internet boom of the 1990s. These are the two
+        major milestones in the history of the Web.</p>
+
+    <p>The wars put the Web in the hands of millions of ordinary PC users, but showed how commercialization of the Web
+        could stymie standards efforts. Both Microsoft and Netscape liberally incorporated proprietary extensions to
+        HTML in their products, and tried to gain an edge by product differentiation, leading to the acceptance of the
+        Cascading Style Sheets proposed by Hakon Wium Lie over Netscape’s JavaScript Style Sheets (JSSS) by W3C.</p>
+
+
+</body>
+
+</html>
