@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Products</title>
+    <link rel="stylesheet" href="products-style.css">
+    <link rel="images" href="images/phone_globe.jpg">
+    
+    <style>
+        body {
+            width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+    <style>
+        main {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            background-image: url("images/phone_globe.jpg");
+            background-repeat: no-repeat;
+        }
+    </style>
+    <style>
+        div {
+            border: 5px black solid;
+            display: flex;
+        }
+    </style>
+<script src="./products_data.js"></script>
+</head>
+<body>
+    <h1>Used Smart Phone Store</h1>
+    <div><main>
+    
+    <script>
+        for (var i = 0; i < products.length; i++){
+        document.write(`
+    <section class="item">
+        <h2>${products[i].name}</h2>
+        <p>\$${products[i].price}</p>
+        <img src=${products[i].image}>
+    </section>`);}
+   </script>
+</main></div>
+</body>  
+<footer>
+        <h1>Your One Stop Phone Shop</h1>
+</footer>
+</html>
