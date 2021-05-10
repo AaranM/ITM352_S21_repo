@@ -24,43 +24,31 @@ app.all('*', function (request, response, next) {
 });
 
 app.post("/process_order", function (request, response) {
-let user_quantity_data = request.body;
-const stringified = qs.stringify(user_quantity_data);
-// If statement created to determine whether or not values are positive.
-if (typeof user_quantity_data['purchase_submit'] != 'undefined') {
-    has_errors = false; //assume quantities are valid from the start
-        has_errors2 = false; //assume quantities are valid from the start
-        total_qty = 0; //need to check if something was selected so we will look if the total > 0
-        total_qty2 = 0; //need to check if something was selected so we will look if the total > 0
-    for (i = 0; i < products.length; i++) {
-        if (user_quantity_data[`quantity${i}`] != 'undefined') {
-            a_qty = user_quantity_data[`quantity${i}`];
-            total_qty += a_qty;
-            if (!isNonNegInt(a_qty)) {
-                has_errors = true; // oops, invalid quantity
+    let user_quantity_data = request.body;
+    const stringified = qs.stringify(user_quantity_data);
+    // If statement created to determine whether or not values are positive.
+    if (typeof user_quantity_data['purchase_submit'] != 'undefined') {
+        has_errors = false; //assume quantities are valid from the start
+            total_qty = 0; //need to check if something was selected so we will look if the total > 0
+        for (i = 0; i < products.length; i++) {
+            if (user_quantity_data[`quantity${i}`] != 'undefined') {
+                a_qty = user_quantity_data[`quantity${i}`];
+                total_qty += a_qty;
+                if (!isNonNegInt(a_qty)) {
+                    has_errors = true; // oops, invalid quantity
+                }
             }
         }
-        if (user_quantity_data[`quantitymonths${i}`] != 'undefined') {
-            a_qty2 = user_quantity_data[`quantitymonths${i}`];
-            total_qty2 += a_qty2;
-            if (!isNonNegInt(a_qty2)) {
-                has_errors2 = true; // oops, invalid quantity
-            }
+        // Now respond to errors or redirect to login if all is ok
+        if (has_errors || total_qty == 0) {
+            response.redirect('./products_display.html?' + qs.stringify(user_quantity_data));
+            return;
+        } else { // all good to go!
+            response.redirect('./login.html?' + qs.stringify(user_quantity_data));
         }
+        //response.redirect("/login.html?" + stringified); // This will use the login.html file
     }
-    // Now respond to errors or redirect to login if all is ok
-    if (has_errors || total_qty == 0) {
-        response.redirect('./products_display.html?' + qs.stringify(user_quantity_data));
-        return;
-    } else if (has_errors2 || total_qty2 == 0) {
-        response.redirect('./products_display.html?' + qs.stringify(user_quantity_data));
-        return;
-    } else { // all good to go!
-        response.redirect('./login.html?' + qs.stringify(user_quantity_data));
-    }
-    //response.redirect("/login.html?" + stringified); // This will use the login.html file
-}
-});
+    });
 
 // This processed the form from order_page.html
 app.post('/process_login', function (request, response, next) { // set path location to test
@@ -70,14 +58,18 @@ app.post('/process_login', function (request, response, next) { // set path loca
     var errors = [];
     if(typeof user_data[username_entered] != 'undefined'){
         if(user_data[username_entered]['password'] == password_entered) {
+            request.query['uname'] = username_entered;
             response.redirect('/invoice.html?' + qs.stringify(request.query));
         }
         else {
             errors.push('Incorrect Password');
+            request.query['uname'] = username_entered;
+            request.query['name'] = user_data['uname'].name;
            // response.redirect('/login.html?' + qs.stringify(request.query));
         }
     } else {
         errors.push('Username not Found');
+        request.query['uname'] = username_entered;
         //response.redirect('/login.html?' + qs.stringify(request.query));
     }
 
@@ -98,6 +90,13 @@ app.post('/process_register', function (request, response) { // set path locatio
         errors.push('Username Taken Already');
     }
 
+    // Fixes so you can only register with letters and numbers for username
+    if (/^[0-9a-zA-Z]+$/.test(request.body['uname'])) {
+    }
+    else {
+        errors.push('Letters And Numbers Only for Username')
+    }
+
     if (/^[a-zA-Z]+ [a-zA-Z]+$/.test(request.body['fullname'])) { //borrow code from https://www.codexworld.com/how-to/validate-first-last-name-with-regular-expression-using-javascript/
     }
     else { // Requires letters only
@@ -108,6 +107,11 @@ app.post('/process_register', function (request, response) { // set path locatio
     } // borrow regular expression from https://www.w3resource.com/javascript/form/email-validation.php
     else { // Requires letters only
       errors.push('Invalid Email');
+    }
+
+    // fixes the issue of allowing user to only create a password of only 3 characters long. meets specification of 6 characters minimum
+    if (request.body['psw'].length < 6) {
+        errors.push('Password Minimum 6 Characters')
     }
 
     if (request.body['psw'] !== request.body['psw-repeat']) { // makes sure password and repeat password are the same
@@ -124,9 +128,9 @@ app.post('/process_register', function (request, response) { // set path locatio
         user_data[username]['password'] = request.body['psw'];
         user_data[username]['email'] = request.body['email'];
         user_data[username]['name'] = request.body['fullname'];
-        fs.writeFileSync(user_data_file, JSON.stringify(user_data), "utf-8");
+        fs.writeFileSync(user_data_file, JSON.stringify(user_data));
         //save updated user_data to file
-        response.redirect('/invoice.html?' + qs.stringify(request.query));
+        response.redirect('/login.html?' + qs.stringify(request.query));
     }
     if (errors.length > 0) { // If there are errors, send to the registration page again.
         //console.log(errors)
