@@ -33,15 +33,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        /** Borrowed Code from WesCossick for aesthetics  **/
+    .invoice {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+      font-size: 16px;
+      line-height: 24px;
+      font-family: "Montserrat", sans-serif;
+      color: #555;
+      background-color: white;
+    }
+
+    /** Borrowed Code from WesCossick for aesthetics  **/
+    .invoice table {
+      width: 100%;
+      line-height: inherit;
+      text-align: left;
+      background-color: white;
+    }
+
+    /** Borrowed Code from WesCossick for aesthetics   **/
+    .invoice table td {
+      padding: 5px;
+      vertical-align: top;
+      background-color: white;
+    }
+
+    /** Borrowed Code from WesCossick for aesthetics **/
+    .invoice table tr td:nth-child(2) {
+      text-align: right;
+      background-color: white;
+    }
+
+    body {
+        background-color:goldenrod;
+    }
+    </style>
+
 </head>
 
 <body>
+    <div class="invoice">
     <table border="2">
         <tbody>
             <tr>
                 <th style="text-align: center;" width="15%">Item</th>
                 <th style="text-align: center;" width="20%">quantity</th>
-                <th style="text-align: center;" width="13%">months</th>
                 <th style="text-align: center;" width="67%">price</th>
                 <th style="text-align: center;" width="35%">extended price</th>
             </tr>
@@ -51,13 +93,12 @@
                 for (i = 0; i < products.length; i++) {
                     if (quantities[i] > 0) {
                         //product rows
-                        extended_price = quantities[i] * products[i].price * quantitiesmonths[i]
+                        extended_price = quantities[i] * products[i].price
                         subtotal += extended_price;
                         document.write(`
                         <tr>
                             <td align="center" width="35%">${products[i].name}</td>
                             <td align="center" width="20%">${quantities[i]}</td>
-                            <td align="center" width="20%">${quantitiesmonths[i]}</td>
                             <td align="center" width="13%">\$${products[i].price.toFixed(2)}</td>
                             <td align="center" width="67%">\$${extended_price.toFixed(2)}</td>
                         </tr>
@@ -89,20 +130,20 @@
                 <td colspan="5" width="100%">&nbsp;</td>
             </tr>
             <tr>
-                <td style="text-align: center;" colspan="4" width="67%">Sub-total</td>
+                <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
                 <td width="54%">$<script>document.write(subtotal.toFixed(2));</script></td>
             </tr>
             <tr>
-                <td style="text-align: center;" colspan="4" width="67%"><span style="font-family: arial;">Tax @
+                <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @
                         5.75%</span></td>
                 <td width="54%">$<script>document.write(sales_tax.toFixed(2));</script></td>
             </tr>
             <tr>
-                <td style="text-align: center;" colspan="4" width="67%"><span style="font-family: arial;">Shipping</span></td>
+                <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span></td>
                 <td width="54%">$<script>document.write(shipping.toFixed(2));</script></td>
             </tr>
             <tr>
-                <td style="text-align: center;" colspan="4" width="67%"><strong>Total</strong></td>
+                <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
                 <td width="54%"><strong>$<script>document.write(grand_total.toFixed(2));</script></strong></td>
             </tr>
         </tbody>
@@ -110,7 +151,7 @@
     <div>
     <br><b>OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
 A subtotal $50 - $99.99 will be $5 shipping
-Subtotals over $100 will be charged 5% of the subtotal amount </b></div>
+Subtotals over $100 will be charged 5% of the subtotal amount </b></div></div>
 </body>
 
 </html>
